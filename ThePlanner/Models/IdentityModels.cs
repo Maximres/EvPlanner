@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -15,6 +17,13 @@ namespace ThePlanner.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+        }
+
+        public ICollection<Occasion> Occasions { get; set; }
+
+        public ApplicationUser()
+        {
+            Occasions = new List<Occasion>();
         }
     }
 

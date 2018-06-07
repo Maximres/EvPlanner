@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +19,34 @@ namespace ThePlanner
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var from = System.Configuration.ConfigurationManager.AppSettings["smtpEmail"].ToString();
+            var pass = System.Configuration.ConfigurationManager.AppSettings["smtpPassword"].ToString();
+
+            //TODO: адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Timeout = 120000,
+                Credentials = new System.Net.NetworkCredential(from, pass),
+                EnableSsl = true
+            };
+
+            // создаем письмо: message.Destination - адрес получателя
+            var mail = new MailMessage(from, message.Destination)
+            {
+                Subject = message.Subject,
+                Body = message.Body,
+                IsBodyHtml = true
+            };
+            try
+            {
+                return client.SendMailAsync(mail);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 
