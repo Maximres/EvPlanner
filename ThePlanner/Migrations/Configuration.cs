@@ -28,6 +28,7 @@ namespace ThePlanner.Migrations
             ApplicationRoleManager roleMgr = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
             ApplicationDbContext db = new ApplicationDbContext();
 
+
             string adminRoleName = "admin";
             string userRoleName = "user";
             Occasion occasion1 = new Occasion

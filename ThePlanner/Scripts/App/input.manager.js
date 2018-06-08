@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
-	$("#add").click(function () {
-		var lastField = $("#buildinput div:last");
+    $("#add").click(function () {
+        var lastField = $("#buildinput div:last");
+        console.log(lastField);
+
 		var intId = (lastField && lastField.length && lastField.data("idx") + 1) || 0;
 		var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field" + intId + "\"/>");
         fieldWrapper.data("idx", intId);

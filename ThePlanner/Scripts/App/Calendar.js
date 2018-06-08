@@ -1,23 +1,4 @@
 ﻿function editEvent(event) {
-
-    //$('#event-modal input[name="date"]').val(event ? event.id : '');
-    //$('#event-modal input[name="event-name"]').val(event ? event.name : '');
-    //$('#event-modal input[name="event-location"]').val(event ? event.location : '');
-    //$('#event-modal').modal();
-
-    //var vl = $('#event-modal input[name="date"]').val();
-    //console.log(new Date(event.date).toISOString("DD-MM-YYYY"));
-    //$('#event-modal input[name="date"]').datepicker('setDate', event.date);
-    //$('#event-modal input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
-
-    //$('#event-modal input[name="event-index"]').val(event ? event.id : '');
-    //$('#event-modal input[name="event-name"]').val(event ? event.name : '');
-    //$('#event-modal input[name="event-location"]').val(event ? event.location : '');
-    //var dt = event.date;
-    //$('#event-modal input[name="date"]').val(new Date());
-
-    //$('#event-modal input[name="date"]').datepicker('setDate',new Date(event.date).toISOString().substr(0,10));
-    //$('#event-modal input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
     let year = event.date.getFullYear();
     let month = event.date.getMonth();
     let day = event.date.getDate() + 1;
@@ -43,7 +24,6 @@ function deleteEvent(event) {
             DeleteEvent(id);
         }
 
-        //$('#calendar').data('calendar').setDataSource(dataSource);
     }
 
     function saveEvent() {
@@ -91,7 +71,7 @@ function deleteEvent(event) {
 
 $(function () {
     var currentYear = new Date().getFullYear();
-    
+
 
     $('#calendar').calendar({
         enableContextMenu: true,
@@ -135,7 +115,6 @@ $(function () {
         clickDay: function (e) {
 
             if (e.events.length > 0) {
-                //console.log(e);
                 console.log(dataGlobal);
                 if (dataGlobal !== undefined) {
                     let index = e.events[0].id;
@@ -158,52 +137,17 @@ $(function () {
                                     });
                                 }
                             });
-                            //получение доп полей
-                            //if (dataGlobal[i].Fields !== undefined) {
-                            //    for (var j = 0; j < dataGlobal[i].Fields.length; j++) {
-                            //        console.log(dataGlobal[i].Fields[j].Name);
-                            //        console.log(dataGlobal[i].Fields[j].Value);
-                            //        //TODO: добавить поля
-
-                            //    }
-                            //}
                         }
                     }
 
                 }
 
-                //console.log(e.events[0].startDate.getDate());
-                //console.error(e.events[0].endDate.getDate());
-                //console.error(e.events[0].startDate.getMonth());
             } else {
                 if (IsAuthorized !== undefined && IsAuthorized === "True") {
                     editEvent(e);
 
                 }
             }
-
-            //    /UNROLL LATER
-            //$.ajax({
-            //    method: "POST",
-            //    processData: false,
-            //    url: '/Occasion/UpdateCalendar',
-            //    success: function (arrJson) {
-            //        let arr = [];
-            //        for (var i = 0; i < arrJson.length; i++) {
-            //            arr.push({
-            //                id: arrJson[0].id,
-            //                name: arrJson[0].name,
-            //                location: arrJson[0].location,
-            //                startDate: new Date(arrJson[0].startDate),
-            //                endDate: new Date(arrJson[0].endDate)
-            //            });
-            //        }
-            //        $('#calendar').data('calendar').setDataSource(arr);
-            //    },
-            //    error: function (jqXhr) {
-            //        console.log(jqXhr);
-            //    }
-            //});
 
         },
         mouseOutDay: function (e) {
@@ -224,28 +168,6 @@ $(function () {
         saveEvent();
     });
 
-    //$('#subscribe').click(function (e) {
-    //    let value = $('#subscribe').val();
-    //    if (value > -1) {
-    //        $.ajax({
-    //            method: "POST",
-    //            data: { 'id': value },
-    //            url: '/Occasion/Subscribe',
-    //            success: function (resp) {
-    //                if (resp.success === "true") {
-    //                    $("#messageBox").empty().text("Вы успешно подписались")
-    //                    $(".alert").alert();
-    //                    //alert("Вы успешно подписались");
-    //                } else {
-    //                    alert("Подписка не удалась");
-    //                }
-    //            },
-    //            error: function () {
-
-    //            }
-    //        });
-    //    }
-    //});
 });
 
 function LoadEvents() {
@@ -255,8 +177,6 @@ function LoadEvents() {
         processData: true,
         url: '/Occasion/UpdateCalendar',
         success: function (arrJson) {
-            //console.log(arrJson);
-            //console.log();
             var arr = [];
 
             for (let i = 0; i < arrJson.length; i++) {
@@ -267,15 +187,11 @@ function LoadEvents() {
                     startDate: new Date(arrJson[i].startDate),
                     endDate: new Date(arrJson[i].endDate)
                 });
-                //TODO: add to days'data
                 let obj = {};
                 let tempArr = [];
                 obj.Id = arrJson[i].id;
                 if (arrJson[i].inputs.length > 0) {
                     for (var j = 0; j < arrJson[i].inputs.length; j++) {
-                        //console.log(arrJson[i].inputs[j].Val);
-                        //tempArr.Name = arrJson[i].inputs[j].Name;
-                        //tempArr.Value = arrJson[i].inputs[j].Val;
                         tempArr.push(
                             {
                                 'Name': arrJson[i].inputs[j].Name,
@@ -322,7 +238,7 @@ function DoSubscribe() {
             url: '/Occasion/Subscribe',
             success: function (resp) {
                 if (resp.success === true) {
-                   $("#messageBox").empty().html("Вы успешно подписались");
+                    $("#messageBox").empty().html("Вы успешно подписались");
                     $(".alert").css('display', "");
                     $(".alert").removeClass('alert-danger');
                     $(".alert").addClass('alert-success');

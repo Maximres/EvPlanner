@@ -75,7 +75,7 @@ namespace ThePlanner.Controllers
                 lock (lockObject)
                 {
                     var currentSubs = occassion.Members.Count;
-                    if (maxCount >= currentSubs)
+                    if (maxCount > currentSubs)
                     {
                         if (occassion.Members.Contains(currentUser) == false)
                         {
@@ -89,7 +89,7 @@ namespace ThePlanner.Controllers
                     }
                     else
                     {
-                        return Json(new { success = false, message = "Невозиожно подписаться" });
+                        return Json(new { success = false, message = "Невозможно подписаться" });
                     }
                 }
                 try
