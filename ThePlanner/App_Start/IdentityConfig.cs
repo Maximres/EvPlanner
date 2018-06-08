@@ -32,7 +32,6 @@ namespace ThePlanner
                 EnableSsl = true
             };
 
-            // создаем письмо: message.Destination - адрес получателя
             var mail = new MailMessage(from, message.Destination)
             {
                 Subject = message.Subject,

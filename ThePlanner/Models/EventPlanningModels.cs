@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -34,12 +35,9 @@ namespace ThePlanner.Models
         /// <summary>
         /// Дата проведения
         /// </summary>
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm}",
+            ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Индекс мероприятия (в представлении)
-        /// </summary>
-        public int Index { get; set; }
 
         /// <summary>
         /// Место проведения
@@ -70,7 +68,6 @@ namespace ThePlanner.Models
         {
             InputFields = new List<InputField>();
             Members = new List<ApplicationUser>();
-            throw new NotImplementedException("Миграция бд INDEX события");
         }
 
     }

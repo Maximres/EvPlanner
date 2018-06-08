@@ -13,9 +13,9 @@ namespace ThePlanner.Controllers
     public class HomeController : Controller
     {
         ApplicationDbContext _context;
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-        private ApplicationRoleManager _roleManager;
+        ApplicationSignInManager _signInManager;
+        ApplicationUserManager _userManager;
+        ApplicationRoleManager _roleManager;
 
         public HomeController()
         {
@@ -82,13 +82,6 @@ namespace ThePlanner.Controllers
         [AdditionalInfo]
         public ActionResult Index()
         {
-#if DEBUG
-            var roles = DbContext.Roles.ToList();
-            foreach(var item in roles)
-            {
-                System.Diagnostics.Debug.WriteLine(item.Name);
-            }
-#endif
             return View();
 
         }
@@ -101,6 +94,7 @@ namespace ThePlanner.Controllers
         }
 
         [AddInfo]
+        //[AdditionalInfo]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

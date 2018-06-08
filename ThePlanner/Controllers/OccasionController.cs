@@ -14,20 +14,36 @@ using Newtonsoft.Json;
 
 namespace ThePlanner.Controllers
 {
+    /// <summary>
+    /// Управление событиями
+    /// </summary>
     public class OccasionController : Controller
     {
+        private static readonly object lockObject = new object();
         ApplicationDbContext _context;
+        ApplicationUserManager _userManager;
 
         public OccasionController()
         {
 
         }
 
-        public OccasionController(ApplicationDbContext context)
+        public OccasionController(ApplicationDbContext context, ApplicationUserManager manager)
         {
             _context = context;
+            _userManager = manager;
+        }
 
-
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         public ApplicationDbContext DbContext
@@ -42,8 +58,59 @@ namespace ThePlanner.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Subscribe(int id)
+        {
+            var occassion = await DbContext
+                .Occasions
+                .Include(x => x.Members)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            var userName = HttpContext?.User?.Identity?.Name;
+
+            if (occassion != null && userName != null)
+            {
+                var maxCount = occassion.MembersLimitCount;
+                var currentUser = await UserManager.Users.FirstOrDefaultAsync(s => s.UserName == userName);
+
+                lock (lockObject)
+                {
+                    var currentSubs = occassion.Members.Count;
+                    if (maxCount >= currentSubs)
+                    {
+                        if (occassion.Members.Contains(currentUser) == false)
+                        {
+                            occassion.Members.Add(currentUser);
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "Вы уже подписаны" });
+                        }
+                        
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Невозиожно подписаться" });
+                    }
+                }
+                try
+                {
+                    await DbContext.SaveChangesAsync();
+                    return Json(new { success = true });
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false, message = "Возникла ошибка при подписки"});
+                }
+            }
+            else
+            {
+                return Json(new { success = true, message = "Невозможно подписать пользователя" });
+            }
+        }
+
+        [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task CreateOccasion(SimpleOccasionViewModel occassion, SimpleInputViewModel[] field)
+        public async Task<ActionResult> Create(SimpleOccasionViewModel occassion, SimpleInputViewModel[] field)
         {
 
             var fields = new List<InputField>();
@@ -76,23 +143,51 @@ namespace ThePlanner.Controllers
             try
             {
                 await DbContext.SaveChangesAsync();
+                return Json(new { success = true });
 
             }
             catch (Exception)
             {
-                //TODO: response with json
+                return Json(new { success = false });
+
             }
         }
 
-        public async Task<ActionResult> DeleteOccassion(int id)
+        [HttpPost]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult> Delete(int id)
         {
-            //TODO: удаление
-            throw new NotImplementedException();
+            var occassion = await DbContext.Occasions.FindAsync(id);
+            if (occassion != null)
+            {
+                DbContext.Occasions.Remove(occassion);
+                await DbContext.SaveChangesAsync();
+                return Json(new { success = "true" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { success = "false" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public async Task<ActionResult> Display(int id)
+        {
+            var occassion = await DbContext.Occasions
+                .Include(x => x.InputFields)
+                .Include(x => x.Members)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+                return PartialView(occassion ?? new Occasion());
         }
 
         public async Task<ActionResult> UpdateCalendar()
         {
-            var evs = await DbContext.Occasions.Include("Members").Include("InputFields").ToListAsync();
+            var evs = await DbContext
+                .Occasions
+                .Include("Members")
+                .Include("InputFields")
+                .ToListAsync();
+
             var dataSources = new List<DataSourceViewModel>();
             foreach (var item in evs)
             {
@@ -102,7 +197,8 @@ namespace ThePlanner.Controllers
                     name = item.Topic,
                     startDate = item.Date.ToString("yyyy-MM-ddTHH:mm:ss"),
                     endDate = item.Date.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    location = item.Location
+                    location = item.Location,
+                    inputs = item.InputFields?.Select(s => new SimpleInputViewModel { Name = s.Name, Val = s.Value })?.ToList() ?? new List<SimpleInputViewModel>()
                     
                 });
             }

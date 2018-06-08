@@ -23,5 +23,8 @@ namespace ThePlanner.Models.OccasionViewModels
 
         [DataMember]
         public string location { get; set; }
+
+        [DataMember]
+        public ICollection<SimpleInputViewModel> inputs { get; set; }
     }
 }

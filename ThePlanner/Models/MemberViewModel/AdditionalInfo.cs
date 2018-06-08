@@ -10,6 +10,7 @@ namespace ThePlanner.Models.MemberViewModel
     {
         [Required(AllowEmptyStrings = false)]
         [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"\d+")]
         public string Phone { get; set; }
 
         [Required]

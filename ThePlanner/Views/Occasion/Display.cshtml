@@ -1,0 +1,93 @@
+﻿@model ThePlanner.Models.Occasion
+
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="sub-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form -->
+
+                <div class="input-group">
+                    @Html.LabelFor(x => x.Topic)
+                    @Html.DisplayFor(x => x.Topic)
+                </div>
+
+                <div>
+                    @Html.LabelFor(x => x.Date)
+                    @Html.DisplayFor(x => x.Date)
+                </div>
+
+                <div>
+                    @Html.LabelFor(x => x.Location)
+                    @Html.DisplayFor(x => x.Location)
+                </div>
+
+                <div>
+                    @Html.LabelFor(x => x.MembersCount)
+                    @Html.DisplayFor(x => x.Members.Count)
+                </div>
+
+                <div>
+                    @Html.LabelFor(x => x.MembersLimitCount)
+                    @Html.DisplayFor(x => x.MembersLimitCount)
+                </div>
+
+                @if (Model.InputFields.Count > 0)
+                {
+                    <div><strong>Дополнительная информация</strong></div>
+                    <table class="table table-bordered">
+                        <tr class="info">
+                            <th>Название</th>
+                            <th>Значение</th>
+                        </tr>
+                        @foreach (var item in Model.InputFields)
+                        {
+                            <tr>
+                                <td> @item.Name</td>
+                                <td> @item.Value</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <div>Дополнительной информации нет</div>
+                }
+
+                @if (Model.Members.Count > 0)
+                {
+                    <div><strong>Список участников:</strong> </div>
+                    <ul class="list-group">
+                        @foreach (var item in Model.Members)
+                        {
+
+                            <li class="list-group-item">
+                                <span>@item.UserName</span>
+                            </li>
+
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div> Список участников пуст</div>
+                }
+
+                <div class="modal-footer">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button id="subscribe" type="button" value="@Model.Id" onclick="DoSubscribe()" class="btn btn-secondary" data-dismiss="modal">Подписаться</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
