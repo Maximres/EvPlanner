@@ -37,6 +37,11 @@ namespace ThePlanner.Models
         public DateTime Date { get; set; }
 
         /// <summary>
+        /// Индекс мероприятия (в представлении)
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
         /// Место проведения
         /// </summary>
         public string Location { get; set; }
@@ -65,6 +70,7 @@ namespace ThePlanner.Models
         {
             InputFields = new List<InputField>();
             Members = new List<ApplicationUser>();
+            throw new NotImplementedException("Миграция бд INDEX события");
         }
 
     }

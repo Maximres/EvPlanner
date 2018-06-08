@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -200,18 +201,41 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OccasionController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AddInfoAttribute.cs" />
+    <Compile Include="Infrastructure\AdditionalInfoAttribute.cs" />
     <Compile Include="Migrations\201806071216240_ModelsAdded.cs" />
     <Compile Include="Migrations\201806071216240_ModelsAdded.Designer.cs">
       <DependentUpon>201806071216240_ModelsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806071323520_SeedDB.cs" />
+    <Compile Include="Migrations\201806071323520_SeedDB.Designer.cs">
+      <DependentUpon>201806071323520_SeedDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806071802220_additionalProps.cs" />
+    <Compile Include="Migrations\201806071802220_additionalProps.Designer.cs">
+      <DependentUpon>201806071802220_additionalProps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806072216592_EnumProp.cs" />
+    <Compile Include="Migrations\201806072216592_EnumProp.Designer.cs">
+      <DependentUpon>201806072216592_EnumProp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806072329112_OccasiongAdded.cs" />
+    <Compile Include="Migrations\201806072329112_OccasiongAdded.Designer.cs">
+      <DependentUpon>201806072329112_OccasiongAdded.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EventPlanningModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MemberViewModel\AdditionalInfo.cs" />
+    <Compile Include="Models\OccasionViewModels\DataSourceViewModel.cs" />
+    <Compile Include="Models\OccasionViewModels\SimpleInputViewModel.cs" />
+    <Compile Include="Models\OccasionViewModels\SimpleOccasionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -267,7 +291,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\App\Calendar.js" />
+    <Content Include="Scripts\App\calendar.js" />
     <Content Include="Scripts\bootstrap-year-calendar.js" />
     <Content Include="Scripts\bootstrap-year-calendar.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -275,6 +299,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\App\input.manager.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -323,11 +348,10 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\DisplayEmail.cshtml" />
+    <Content Include="Views\User\CompleteProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Infrastructure\" />
-    <Folder Include="Models\OccasionViewModels\" />
     <Folder Include="Views\Field\" />
     <Folder Include="Views\Occasion\" />
   </ItemGroup>
@@ -347,6 +371,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201806071216240_ModelsAdded.resx">
       <DependentUpon>201806071216240_ModelsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806071323520_SeedDB.resx">
+      <DependentUpon>201806071323520_SeedDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806071802220_additionalProps.resx">
+      <DependentUpon>201806071802220_additionalProps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806072216592_EnumProp.resx">
+      <DependentUpon>201806072216592_EnumProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806072329112_OccasiongAdded.resx">
+      <DependentUpon>201806072329112_OccasiongAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

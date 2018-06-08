@@ -1,21 +1,81 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+@using ThePlanner.Models
 
 <div class="row">
-    <div class="col-sm-10">
-       <!-- Content -->
-        <div id="calendar"></div>
+    <div class="col-sm-12">
 
-        <!-- Modal -->
-        
+        <!-- Example modal-->
+        <div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="event-modalTitle">Добавить мероприятие</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="theForm">
+                        <div class="modal-body">
+                            <!-- Form -->
+
+                            <div>
+                                <label for="topic">Тема</label>
+                                <input type="text" name="topic" id="topic" value="Новая тема" required />
+                            </div>
+
+                            <div>
+                                <label for="date">Дата</label>
+                                <input type="date" name="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                            </div>
+
+                            <div>
+                                <label for="time">Время</label>
+                                <input type="time" name="time" value="@DateTime.Parse("12:00").ToString("hh:mm")" id="time" required />
+                            </div>
+
+                            <div>
+                                <label for="MembersLimitCount">Число участников</label>
+                                <input type="text" name="count" id="count" required />
+                            </div>
+
+                            <div>
+                                <label for="location">Место</label>
+                                <input type="text" name="location" id="location" required />
+                            </div>
+                            <div>
+                                <fieldset id="buildinput">
+                                    <legend>Дополнительные поля</legend>
+                                </fieldset>
+                                <input type="button" value="Добавить" class="add" id="add" />
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="submitBtn" type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Temp trigger -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#event-modal">
+            Launch demo modal
+        </button>
+
+        <!-- Content -->
+        <div id="calendar"></div>
     </div>
-    
+
 </div>
 @section scripts{
-    
     @* TODO: pass data *@
-
-<script src="~/Scripts/App/Calendar.js"></script>
+    <script src="~/Scripts/App/input.manager.js"></script>
+    <script src="~/Scripts/App/calendar.js?version=@DateTime.Now.Ticks.ToString()"></script>
 }

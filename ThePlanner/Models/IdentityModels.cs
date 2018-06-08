@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using ThePlanner.Models.MemberViewModel;
 
 namespace ThePlanner.Models
 {
@@ -19,11 +20,29 @@ namespace ThePlanner.Models
             return userIdentity;
         }
 
+        /// <summary>
+        /// custom props
+        /// </summary>
         public ICollection<Occasion> Occasions { get; set; }
+        public int Age { get; set; }
+        public Gender Gender { get; set; }
 
         public ApplicationUser()
         {
             Occasions = new List<Occasion>();
+        }
+    }
+
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole():base()
+        {
+
+        }
+
+        public ApplicationRole(string roleName) : base(roleName)
+        {
+
         }
     }
 
@@ -34,9 +53,13 @@ namespace ThePlanner.Models
         {
         }
 
+        public DbSet<Occasion> Occasions { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        
     }
 }
