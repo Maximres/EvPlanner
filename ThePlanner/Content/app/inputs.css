@@ -1,0 +1,20 @@
+﻿.fieldname {
+    padding: 5px;
+    border: 2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+    input[type=text]:focus {
+        border-color: #333;
+    }
+
+.remove {
+    padding: 5px 15px;
+    background: #ccc;
+    border: 0 none;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;

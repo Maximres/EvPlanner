@@ -7,7 +7,7 @@ namespace ThePlanner.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "Age", c => c.Int(nullable: true));
+            AddColumn("dbo.AspNetUsers", "Age", c => c.Int(nullable: false));
             AddColumn("dbo.AspNetUsers", "Location", c => c.String());
         }
         

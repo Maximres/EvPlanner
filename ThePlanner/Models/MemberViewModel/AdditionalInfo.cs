@@ -16,7 +16,7 @@ namespace ThePlanner.Models.MemberViewModel
         [Required]
         [Range(1, 170)]
         [UIHint("number")]
-        public int? Age { get; set; }
+        public int Age { get; set; }
 
         [Required]
         public Gender Gender { get; set; }

@@ -14,6 +14,7 @@ namespace ThePlanner.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            //AutomaticMigrationDataLossAllowed = true;
             ContextKey = "ThePlanner.Models.ApplicationDbContext";
         }
 

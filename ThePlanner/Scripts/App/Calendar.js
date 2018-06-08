@@ -4,7 +4,10 @@
     let day = event.date.getDate() + 1;
     document.getElementById("date").valueAsDate = new Date(year, month, day);
 
-    $('#event-modal').modal();
+    $('#event-modal').modal({
+        keyboard: false,
+        backdrop: 'static'
+    });
 }
 
 
@@ -134,6 +137,8 @@ $(function () {
                                 success: function (data) {
                                     $("#target").empty().html(data);
                                     $("#sub-modal").modal({
+                                        backdrop: 'static',
+                                        keyboard: false
                                     });
                                 }
                             });
